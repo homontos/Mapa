@@ -3,80 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Świata - Kontury</title>
+    <title>Moja Interaktywna Mapa</title>
+    
+    <!-- Paski narzędziowe i style potrzebne do prawidłowego wyświetlania mapy -->
+    <link rel="stylesheet" href="https://unpkg.com" />
+    <script src="https://unpkg.com"></script>
+
     <style>
-        /* Podstawowe resetowanie i centrowanie mapy na ekranie */
-        body {
+        /* Reset marginesów, aby mapa zajmowała dokładnie cały ekran komputera lub telefonu */
+        html, body {
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* Białe tło strony */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
         }
 
-        /* Kontener na mapę - elastyczny i responsywny */
-        .map-container {
-            width: 90%;
-            max-width: 1000px;
-            height: auto;
-        }
-
-        /* Stylizacja linii konturów mapy SVG */
-        svg {
+        /* Kontener mapy działający jako interaktywne tło */
+        #map {
             width: 100%;
-            height: auto;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Mapa jest najniżej */
         }
 
-        /* Wygląd lądów/państw */
-        .land {
-            fill: #f3f4f6;        /* Jasnoszare wnętrze kontynentów */
-            stroke: #2c3e50;      /* Ciemne linie konturów */
-            stroke-width: 1.5;    /* Grubość linii */
-            stroke-linejoin: round;
-            cursor: pointer;
-            transition: fill 0.3s ease, stroke 0.3s ease; /* Płynne przejście koloru */
-        }
-
-        /* Efekt po najechaniu myszką na dany fragment lądu */
-        .land:hover {
-            fill: #bdc3c7;        /* Ciemniejszy szary przy najechaniu */
-            stroke: #16a085;      /* Zmiana koloru konturu na turkusowy */
+        /* Przykładowy panel na Twoje elementy (np. menu, punkty, opis), który będzie "leżał" na mapie */
+        .interfejs-nad-mapa {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000; /* Wyżej niż mapa, aby dało się klikać */
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            max-width: 300px;
         }
     </style>
 </head>
 <body>
 
-    <div class="map-container">
-        <!-- Mapa świata SVG (uproszczone, geometryczne kontury kontynentów dla czytelności) -->
-        <svg viewBox="0 0 1000 500" xmlns="http://w3.org">
-            
-            <!-- Ameryka Północna -->
-            <path class="land" d="M 100,50 L 250,50 L 300,120 L 250,220 L 200,220 L 190,250 L 150,230 L 100,150 Z" />
-            
-            <!-- Ameryka Południowa -->
-            <path class="land" d="M 230,260 L 290,280 L 260,380 L 230,450 L 210,450 L 200,350 Z" />
-            
-            <!-- Grenlandia -->
-            <path class="land" d="M 320,20 L 380,30 L 350,80 L 300,60 Z" />
-            
-            <!-- Afryka -->
-            <path class="land" d="M 430,200 L 520,180 L 580,240 L 540,300 L 510,420 L 470,350 L 420,280 Z" />
-            
-            <!-- Europa i Azja (Eurazja) -->
-            <path class="land" d="M 420,180 L 460,100 L 550,50 L 750,40 L 880,80 L 850,250 L 750,280 L 700,220 L 600,240 L 530,190 Z" />
-            
-            <!-- Australia i Oceania -->
-            <path class="land" d="M 780,330 L 850,320 L 880,380 L 820,420 L 760,380 Z" />
-            
-            <!-- Antarktyda -->
-            <path class="land" d="M 100,480 L 900,480 L 850,495 L 150,495 Z" />
-            
-        </svg>
+    <!-- Panel z Twoją zawartością (zmień tekst lub dodaj tu swoje przyciski) -->
+    <div class="interfejs-nad-mapa">
+        <h3>Moje Projekty</h3>
+        <p>To jest prawdziwa, interaktywna mapa z internetu działająca jako tło.</p>
+        <small>Możesz ją przesuwać i przybliżać myszką lub palcem.</small>
     </div>
+
+    <!-- Główny kontener, w którym Leaflet wygeneruje mapę -->
+    <div id="map"></div>
+
+    <script>
+        // 1. Inicjalizacja interaktywnej mapy
+        // [52.23, 21.01] to współrzędne geograficzne (środek Polski/Warszawa)
+        // Liczba 6 to początkowe przybliżenie (zoom)
+        const map = L.map('map').setView([52.23, 21.01], 6);
+
+        // 2. Ładowanie prawdziwych, szczegółowych kafelków mapy z serwera OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // 3. Dodanie przykładowego interaktywnego znacznika (markera)
+        const marker = L.marker([52.2297, 21.0122]).addTo(map);
+        marker.bindPopup("<b>Witaj!</b><br>To jest interaktywny punkt.").openPopup();
+    </script>
 
 </body>
 </html>
