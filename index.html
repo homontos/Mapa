@@ -5,37 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moja Interaktywna Mapa</title>
     
-    <!-- Paski narzędziowe i style potrzebne do prawidłowego wyświetlania mapy -->
-    <link rel="stylesheet" href="https://unpkg.com" />
-    <script src="https://unpkg.com"></script>
+    <!-- Bezpieczne, oficjalne linki do biblioteki Leaflet z sumami kontrolnymi -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <style>
-        /* Reset marginesów, aby mapa zajmowała dokładnie cały ekran komputera lub telefonu */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            background-color: #f0f0f0; /* Jasne tło zamiast pustki, jeśli sieć wolno działa */
         }
 
-        /* Kontener mapy działający jako interaktywne tło */
+        /* Wymuszenie na sztywno, by mapa zajmowała cały ekran widoku (vh/vw) */
         #map {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 1; /* Mapa jest najniżej */
+            z-index: 1;
         }
 
-        /* Przykładowy panel na Twoje elementy (np. menu, punkty, opis), który będzie "leżał" na mapie */
         .interfejs-nad-mapa {
             position: absolute;
             top: 20px;
             left: 20px;
-            z-index: 1000; /* Wyżej niż mapa, aby dało się klikać */
-            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000; /* Wyższy indeks, aby panel nie zniknął pod mapą */
+            background: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -46,31 +44,27 @@
 </head>
 <body>
 
-    <!-- Panel z Twoją zawartością (zmień tekst lub dodaj tu swoje przyciski) -->
     <div class="interfejs-nad-mapa">
         <h3>Moje Projekty</h3>
-        <p>To jest prawdziwa, interaktywna mapa z internetu działająca jako tło.</p>
-        <small>Możesz ją przesuwać i przybliżać myszką lub palcem.</small>
+        <p>Jeśli tło nadal jest szare, upewnij się, że masz połączenie z internetem.</p>
     </div>
 
-    <!-- Główny kontener, w którym Leaflet wygeneruje mapę -->
     <div id="map"></div>
 
     <script>
-        // 1. Inicjalizacja interaktywnej mapy
-        // [52.23, 21.01] to współrzędne geograficzne (środek Polski/Warszawa)
-        // Liczba 6 to początkowe przybliżenie (zoom)
+        // Inicjalizacja mapy na współrzędnych Warszawy
         const map = L.map('map').setView([52.23, 21.01], 6);
 
-        // 2. Ładowanie prawdziwych, szczegółowych kafelków mapy z serwera OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        # Zabezpieczony i uniwersalny adres serwera OpenStreetMap
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '© OpenStreetMap'
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        // 3. Dodanie przykładowego interaktywnego znacznika (markera)
-        const marker = L.marker([52.2297, 21.0122]).addTo(map);
-        marker.bindPopup("<b>Witaj!</b><br>To jest interaktywny punkt.").openPopup();
+        // Odświeżenie rozmiaru mapy w locie (rozwiązuje problem z białym tłem na niektórych urządzeniach)
+        setTimeout(function, 500() {
+            map.invalidateSize();
+        });
     </script>
 
 </body>
