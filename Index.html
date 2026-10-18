@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Świata - Kontury</title>
+    <style>
+        /* Podstawowe resetowanie i centrowanie mapy na ekranie */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* Białe tło strony */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Kontener na mapę - elastyczny i responsywny */
+        .map-container {
+            width: 90%;
+            max-width: 1000px;
+            height: auto;
+        }
+
+        /* Stylizacja linii konturów mapy SVG */
+        svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Wygląd lądów/państw */
+        .land {
+            fill: #f3f4f6;        /* Jasnoszare wnętrze kontynentów */
+            stroke: #2c3e50;      /* Ciemne linie konturów */
+            stroke-width: 1.5;    /* Grubość linii */
+            stroke-linejoin: round;
+            cursor: pointer;
+            transition: fill 0.3s ease, stroke 0.3s ease; /* Płynne przejście koloru */
+        }
+
+        /* Efekt po najechaniu myszką na dany fragment lądu */
+        .land:hover {
+            fill: #bdc3c7;        /* Ciemniejszy szary przy najechaniu */
+            stroke: #16a085;      /* Zmiana koloru konturu na turkusowy */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="map-container">
+        <!-- Mapa świata SVG (uproszczone, geometryczne kontury kontynentów dla czytelności) -->
+        <svg viewBox="0 0 1000 500" xmlns="http://w3.org">
+            
+            <!-- Ameryka Północna -->
+            <path class="land" d="M 100,50 L 250,50 L 300,120 L 250,220 L 200,220 L 190,250 L 150,230 L 100,150 Z" />
+            
+            <!-- Ameryka Południowa -->
+            <path class="land" d="M 230,260 L 290,280 L 260,380 L 230,450 L 210,450 L 200,350 Z" />
+            
+            <!-- Grenlandia -->
+            <path class="land" d="M 320,20 L 380,30 L 350,80 L 300,60 Z" />
+            
+            <!-- Afryka -->
+            <path class="land" d="M 430,200 L 520,180 L 580,240 L 540,300 L 510,420 L 470,350 L 420,280 Z" />
+            
+            <!-- Europa i Azja (Eurazja) -->
+            <path class="land" d="M 420,180 L 460,100 L 550,50 L 750,40 L 880,80 L 850,250 L 750,280 L 700,220 L 600,240 L 530,190 Z" />
+            
+            <!-- Australia i Oceania -->
+            <path class="land" d="M 780,330 L 850,320 L 880,380 L 820,420 L 760,380 Z" />
+            
+            <!-- Antarktyda -->
+            <path class="land" d="M 100,480 L 900,480 L 850,495 L 150,495 Z" />
+            
+        </svg>
+    </div>
+
+</body>
+</html>
